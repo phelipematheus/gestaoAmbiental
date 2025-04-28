@@ -32,12 +32,12 @@ int validar_usuario(const char *usuario, const char *senha) {
     }
 
     while (fgets(linha, sizeof(linha), file)) {
-        char line_usuario[128];
-        char line_senha[128];
+        char linha_usuario[128];
+        char linha_senha[128];
 
-        sscanf(line, "%127s %127s", line_usuario, line_senha);
+        sscanf(linha, "%127s %127s", linha_usuario, linha_senha);
 
-        if (strcmp(line_usuario, usuario) == 0 && strcmp(line_senha, senha) == 0) {
+        if (strcmp(linha_usuario, usuario) == 0 && strcmp(linha_senha, senha) == 0) {
             fclose(file);
             return 1;
         }
@@ -64,18 +64,11 @@ void login(char *usuario, char *senha)
     if(validar_usuario(usuario, senha))
     {
         mensagem("Bem Vindo", "Usuario Logado com sucesso!","emblem-default");
-        gtk_stack_set_visible_child_name(stack, "")
+        gtk_stack_set_visible_child_name(stack, "view_industria");
     }
     else
     {
-//		TODO: fazer a chamada para orientar como cadastrar o usuario
-//		if (resposta == 'y' || resposta == 'Y') {
-//      	inserir_usuario(usuario, senha);
-//          mensagem("Cadastro", "Usuario cadastrado com sucesso!", "emblem-default");
-//      } else {
-//      	mensagem("Login incorreto", "Email ou senha incorretos!", "dialog-error");
-//      }
-        mensagem("Login incorreto", "Email ou senha incorretos!","dialog-error");
+        mensagem("Login incorreto", "Email ou senha incorretos! \n Fa\u00E7a o cadastro PRIMEIRO!","dialog-error");
     }
 }
 
@@ -88,13 +81,21 @@ void on_button_login_clicked(GtkWidget *widget, gpointer data)
 
 void on_button_cadastro_clicked(GtkWidget *widget, gpointer data)
 {
+    char *usuario = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "usuario")));
+    char *senha = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "senha")));
+    cadastro(usuario, senha);
+}
+
+void cadastro(char *usuario, char *senha)
+{
 	if(validar_usuario(usuario, senha))
     {
-        mensagem("Erro Cadastro", "Usuario já cadastrado","emblem-default");
+        mensagem("Erro Cadastro !", "Usuario j\u00E1 cadastrado","dialog-error");
     }
     else
     {
-
+		inserir_usuario(usuario, senha);
+		mensagem("Sucesso !", "Usuario cadastrado com sucesso!","emblem-default");
     }
 }
 
@@ -105,11 +106,12 @@ void on_main_login_destroy(GtkWidget *widget, gpointer data)
 
 void on_butto_sair_industria_clicked(GtkWidget *widget, gpointer data)
 {
-    gtk_main_quit();
+	gtk_stack_set_visible_child_name(stack, "view_login");
+}
 
-}void on_button_cadastrar_industria_clicked(GtkWidget *widget, gpointer data)
+void on_button_cadastrar_industria_clicked(GtkWidget *widget, gpointer data)
 {
-    gtk_main_quit();
+    gtk_stack_set_visible_child_name(stack, "view_cadastrar_industria");
 }
 
 void on_button_listar_industrias_clicked(GtkWidget *widget, gpointer data)
