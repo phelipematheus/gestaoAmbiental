@@ -116,17 +116,18 @@ void on_button_cadastrar_industria_clicked(GtkWidget *widget, gpointer data)
 
 void on_button_listar_industrias_clicked(GtkWidget *widget, gpointer data)
 {
-    gtk_main_quit();
+//	Listar as industrias e o que foi cadastrado
 }
 
 void on_btn_cancelar_clicked(GtkWidget *widget, gpointer data)
 {
-    gtk_main_quit();
+	gtk_stack_set_visible_child_name(stack, "view_industria");
 }
 
 void on_btn_salvar_clicked(GtkWidget *widget, gpointer data)
 {
-    gtk_main_quit();
+//	TODO: Fazer o fluxo de cancelamento
+	gtk_stack_set_visible_child_name(stack, "view_industria");
 }
 
 int main(int argc, char *argv[])
