@@ -1,8 +1,10 @@
 # depslib dependency file v1.0
-1745857793 source:p:\projects\gestaoambiental\gestaoambiental\gestaoambiental.c
+1745906878 source:p:\projects\gestaoambiental\gestaoambiental\gestaoambiental.c
 	<gtk/gtk.h>
 	<stdlib.h>
 	<stdbool.h>
+	<openssl/aes.h>
+	<openssl/rand.h>
 
 1741239508 c:\msys64\mingw64\include\gtk-3.0\gtk\gtk.h
 	<gdk/gdk.h>
@@ -414,75 +416,75 @@
 1744375579 c:\msys64\mingw64\include\glib-2.0\glib\gmacros.h
 	<stddef.h>
 
-1744094632 c:\msys64\mingw64\include\stddef.h
+1745528877 c:\msys64\mingw64\include\stddef.h
 	<crtdefs.h>
 
-1744094632 c:\msys64\mingw64\include\crtdefs.h
+1745528877 c:\msys64\mingw64\include\crtdefs.h
 	<corecrt.h>
 
-1744094632 c:\msys64\mingw64\include\corecrt.h
+1745528877 c:\msys64\mingw64\include\corecrt.h
 	<_mingw.h>
 	<winapifamily.h>
 
-1744094632 c:\msys64\mingw64\include\_mingw.h
+1745528877 c:\msys64\mingw64\include\_mingw.h
 	"_mingw_mac.h"
 	"_mingw_secapi.h"
 	"_cygwin.h"
 	<vadefs.h>
 	"sdks/_mingw_ddk.h"
 
-1744094632 c:\msys64\mingw64\include\_mingw_mac.h
+1745528877 c:\msys64\mingw64\include\_mingw_mac.h
 
-1744094632 c:\msys64\mingw64\include\_mingw_secapi.h
+1745528877 c:\msys64\mingw64\include\_mingw_secapi.h
 
-1744094632 c:\msys64\mingw64\include\_cygwin.h
+1745528877 c:\msys64\mingw64\include\_cygwin.h
 	<stddef.h>
 
-1744094632 c:\msys64\mingw64\include\vadefs.h
+1745528877 c:\msys64\mingw64\include\vadefs.h
 	<_mingw.h>
 
-1744094632 c:\msys64\mingw64\include\sdks\_mingw_ddk.h
+1745528877 c:\msys64\mingw64\include\sdks\_mingw_ddk.h
 
-1744094632 c:\msys64\mingw64\include\winapifamily.h
+1745528877 c:\msys64\mingw64\include\winapifamily.h
 
-1744094632 c:\msys64\mingw64\include\limits.h
+1745528877 c:\msys64\mingw64\include\limits.h
 	<crtdefs.h>
 
-1744094632 c:\msys64\mingw64\include\float.h
+1745528877 c:\msys64\mingw64\include\float.h
 	<crtdefs.h>
 
 1744375579 c:\msys64\mingw64\include\glib-2.0\glib\gversionmacros.h
 
 1744375579 c:\msys64\mingw64\include\glib-2.0\glib\glib-visibility.h
 
-1744094632 c:\msys64\mingw64\include\time.h
+1745528877 c:\msys64\mingw64\include\time.h
 	<crtdefs.h>
 	<sys/timeb.h>
 	<_timeval.h>
 	<pthread_time.h>
 
-1744094632 c:\msys64\mingw64\include\sys\timeb.h
+1745528877 c:\msys64\mingw64\include\sys\timeb.h
 	<crtdefs.h>
 	<sec_api/sys/timeb_s.h>
 
-1744094632 c:\msys64\mingw64\include\sec_api\sys\timeb_s.h
+1745528877 c:\msys64\mingw64\include\sec_api\sys\timeb_s.h
 	<sys/timeb.h>
 
-1744094632 c:\msys64\mingw64\include\_timeval.h
+1745528877 c:\msys64\mingw64\include\_timeval.h
 
-1744095184 c:\msys64\mingw64\include\pthread_time.h
+1745529565 c:\msys64\mingw64\include\pthread_time.h
 	"pthread_compat.h"
 
-1744095184 c:\msys64\mingw64\include\pthread_compat.h
+1745529565 c:\msys64\mingw64\include\pthread_compat.h
 
-1744094632 c:\msys64\mingw64\include\string.h
+1745528877 c:\msys64\mingw64\include\string.h
 	<crtdefs.h>
 	<sec_api/string_s.h>
 
-1744094632 c:\msys64\mingw64\include\sec_api\string_s.h
+1745528877 c:\msys64\mingw64\include\sec_api\string_s.h
 	<string.h>
 
-1744094632 c:\msys64\mingw64\include\malloc.h
+1745528877 c:\msys64\mingw64\include\malloc.h
 	<crtdefs.h>
 	<mm_malloc.h>
 
@@ -509,10 +511,10 @@
 	<stdarg.h>
 	<glib/gquark.h>
 
-1744094632 c:\msys64\mingw64\include\stdarg.h
+1745528877 c:\msys64\mingw64\include\stdarg.h
 	<_mingw_stdarg.h>
 
-1744094632 c:\msys64\mingw64\include\_mingw_stdarg.h
+1745528877 c:\msys64\mingw64\include\_mingw_stdarg.h
 	<vadefs.h>
 
 1744375579 c:\msys64\mingw64\include\glib-2.0\glib\gquark.h
@@ -523,17 +525,17 @@
 	<stdarg.h>
 	<stdlib.h>
 
-1744094632 c:\msys64\mingw64\include\stdlib.h
+1745528877 c:\msys64\mingw64\include\stdlib.h
 	<corecrt.h>
 	<corecrt_wstdlib.h>
 	<limits.h>
 	<sec_api/stdlib_s.h>
 	<malloc.h>
 
-1744094632 c:\msys64\mingw64\include\corecrt_wstdlib.h
+1745528877 c:\msys64\mingw64\include\corecrt_wstdlib.h
 	<corecrt.h>
 
-1744094632 c:\msys64\mingw64\include\sec_api\stdlib_s.h
+1745528877 c:\msys64\mingw64\include\sec_api\stdlib_s.h
 	<stdlib.h>
 
 1744375579 c:\msys64\mingw64\include\glib-2.0\glib\gbacktrace.h
@@ -541,11 +543,11 @@
 	<sys/select.h>
 	<signal.h>
 
-1744094632 c:\msys64\mingw64\include\signal.h
+1745528877 c:\msys64\mingw64\include\signal.h
 	<crtdefs.h>
 	<pthread_signal.h>
 
-1744095184 c:\msys64\mingw64\include\pthread_signal.h
+1745529565 c:\msys64\mingw64\include\pthread_signal.h
 
 1744375579 c:\msys64\mingw64\include\glib-2.0\glib\gbase64.h
 	<glib/gtypes.h>
@@ -591,17 +593,17 @@
 	<glib/gerror.h>
 	<dirent.h>
 
-1744094632 c:\msys64\mingw64\include\dirent.h
+1745528877 c:\msys64\mingw64\include\dirent.h
 	<crtdefs.h>
 	<io.h>
 
-1744094632 c:\msys64\mingw64\include\io.h
+1745528877 c:\msys64\mingw64\include\io.h
 	<crtdefs.h>
 	<string.h>
 	<_mingw_off_t.h>
 	<string.h>
 
-1744094632 c:\msys64\mingw64\include\_mingw_off_t.h
+1745528877 c:\msys64\mingw64\include\_mingw_off_t.h
 
 1744375579 c:\msys64\mingw64\include\glib-2.0\glib\genviron.h
 	<glib/gtypes.h>
@@ -776,7 +778,7 @@
 	<stdlib.h>
 	<string.h>
 
-1744094632 c:\msys64\mingw64\include\errno.h
+1745528877 c:\msys64\mingw64\include\errno.h
 	<crtdefs.h>
 
 1744375579 c:\msys64\mingw64\include\glib-2.0\glib\gthreadpool.h
@@ -823,11 +825,11 @@
 	<sys/types.h>
 	<pthread.h>
 
-1744094632 c:\msys64\mingw64\include\sys\types.h
+1745528877 c:\msys64\mingw64\include\sys\types.h
 	<crtdefs.h>
 	<_mingw_off_t.h>
 
-1744095184 c:\msys64\mingw64\include\pthread.h
+1745529565 c:\msys64\mingw64\include\pthread.h
 	<stddef.h>
 	<errno.h>
 	<sys/types.h>
@@ -840,15 +842,15 @@
 	"pthread_time.h"
 	<pthread_unistd.h>
 
-1744094632 c:\msys64\mingw64\include\process.h
+1745528877 c:\msys64\mingw64\include\process.h
 	<crtdefs.h>
 	<corecrt_startup.h>
 	<sys/types.h>
 
-1744094632 c:\msys64\mingw64\include\corecrt_startup.h
+1745528877 c:\msys64\mingw64\include\corecrt_startup.h
 	<corecrt.h>
 
-1744095184 c:\msys64\mingw64\include\sched.h
+1745529565 c:\msys64\mingw64\include\sched.h
 	<stddef.h>
 	<errno.h>
 	<sys/types.h>
@@ -857,7 +859,7 @@
 	<signal.h>
 	"pthread_compat.h"
 
-1744095184 c:\msys64\mingw64\include\pthread_unistd.h
+1745529565 c:\msys64\mingw64\include\pthread_unistd.h
 
 1744375579 c:\msys64\mingw64\include\glib-2.0\glib\glib-autocleanups.h
 
@@ -1215,14 +1217,14 @@
 	<unistd.h>
 	<sys/types.h>
 
-1744094632 c:\msys64\mingw64\include\unistd.h
+1745528877 c:\msys64\mingw64\include\unistd.h
 	<io.h>
 	<process.h>
 	<getopt.h>
 	<sys/types.h>
 	<pthread_unistd.h>
 
-1744094632 c:\msys64\mingw64\include\getopt.h
+1745528877 c:\msys64\mingw64\include\getopt.h
 	<crtdefs.h>
 
 1744375579 c:\msys64\mingw64\include\glib-2.0\gio\gdatagrambased.h
@@ -1694,7 +1696,7 @@
 
 1742142257 c:\msys64\mingw64\include\pango-1.0\pango\pango-features.h
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb.h
 	"hb-blob.h"
 	"hb-buffer.h"
 	"hb-common.h"
@@ -1711,80 +1713,80 @@
 	"hb-unicode.h"
 	"hb-version.h"
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-blob.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-blob.h
 	"hb-common.h"
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-common.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-common.h
 	<sys/inttypes.h>
 	<stdint.h>
 	<inttypes.h>
 	<stddef.h>
 	"hb-script-list.h"
 
-1744094632 c:\msys64\mingw64\include\stdint.h
+1745528877 c:\msys64\mingw64\include\stdint.h
 	<crtdefs.h>
 	<stddef.h>
 
-1744094632 c:\msys64\mingw64\include\inttypes.h
+1745528877 c:\msys64\mingw64\include\inttypes.h
 	<crtdefs.h>
 	<stdint.h>
 	<stddef.h>
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-script-list.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-script-list.h
 	"hb-common.h"
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-buffer.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-buffer.h
 	"hb-common.h"
 	"hb-unicode.h"
 	"hb-font.h"
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-unicode.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-unicode.h
 	"hb-common.h"
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-font.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-font.h
 	"hb-common.h"
 	"hb-face.h"
 	"hb-draw.h"
 	"hb-paint.h"
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-face.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-face.h
 	"hb-common.h"
 	"hb-blob.h"
 	"hb-map.h"
 	"hb-set.h"
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-map.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-map.h
 	"hb-common.h"
 	"hb-set.h"
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-set.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-set.h
 	"hb-common.h"
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-draw.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-draw.h
 	"hb.h"
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-paint.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-paint.h
 	"hb-common.h"
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-deprecated.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-deprecated.h
 	"hb-common.h"
 	"hb-unicode.h"
 	"hb-font.h"
 	"hb-set.h"
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-shape.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-shape.h
 	"hb-common.h"
 	"hb-buffer.h"
 	"hb-font.h"
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-shape-plan.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-shape-plan.h
 	"hb-common.h"
 	"hb-font.h"
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-style.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-style.h
 	"hb.h"
 
-1744877159 c:\msys64\mingw64\include\harfbuzz\hb-version.h
+1745043441 c:\msys64\mingw64\include\harfbuzz\hb-version.h
 	"hb-common.h"
 
 1742142257 c:\msys64\mingw64\include\pango-1.0\pango\pango-types.h
@@ -1904,19 +1906,19 @@
 	<glib.h>
 	<pango/pango-font.h>
 
-1744094632 c:\msys64\mingw64\include\stdio.h
+1745528877 c:\msys64\mingw64\include\stdio.h
 	<corecrt_stdio_config.h>
 	<_mingw_off_t.h>
 	<swprintf.inl>
 	<sec_api/stdio_s.h>
 
-1744094632 c:\msys64\mingw64\include\corecrt_stdio_config.h
+1745528877 c:\msys64\mingw64\include\corecrt_stdio_config.h
 	<corecrt.h>
 
-1744094632 c:\msys64\mingw64\include\swprintf.inl
+1745528877 c:\msys64\mingw64\include\swprintf.inl
 	<vadefs.h>
 
-1744094632 c:\msys64\mingw64\include\sec_api\stdio_s.h
+1745528877 c:\msys64\mingw64\include\sec_api\stdio_s.h
 	<stdio.h>
 
 1741854389 c:\msys64\mingw64\include\cairo\cairo.h
@@ -3275,4 +3277,194 @@
 	<gtk/gtkseparator.h>
 
 1741239508 c:\msys64\mingw64\include\gtk-3.0\gtk\gtk-autocleanups.h
+
+1744175995 c:\msys64\mingw64\include\openssl\aes.h
+	<openssl/macros.h>
+	<openssl/opensslconf.h>
+	<stddef.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\macros.h
+	<openssl/opensslconf.h>
+	<openssl/opensslv.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\opensslconf.h
+	<openssl/configuration.h>
+	<openssl/macros.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\configuration.h
+
+1744175995 c:\msys64\mingw64\include\openssl\opensslv.h
+	<openssl/macros.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\rand.h
+	<openssl/macros.h>
+	<stdlib.h>
+	<openssl/types.h>
+	<openssl/e_os2.h>
+	<openssl/randerr.h>
+	<openssl/evp.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\types.h
+	<limits.h>
+	<openssl/e_os2.h>
+	<openssl/safestack.h>
+	<openssl/macros.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\e_os2.h
+	<openssl/macros.h>
+	<openssl/opensslconf.h>
+	<strings.h>
+	<spthread.h>
+	<pthread.h>
+	<sys/types.h>
+	<inttypes.h>
+	<stdint.h>
+	<sys/types.h>
+	<stdint.h>
+
+1745528877 c:\msys64\mingw64\include\strings.h
+	<string.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\safestack.h
+	<openssl/macros.h>
+	<openssl/stack.h>
+	<openssl/e_os2.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\stack.h
+	<openssl/macros.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\randerr.h
+	<openssl/opensslconf.h>
+	<openssl/symhacks.h>
+	<openssl/cryptoerr_legacy.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\symhacks.h
+	<openssl/macros.h>
+	<openssl/e_os2.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\cryptoerr_legacy.h
+	<openssl/macros.h>
+	<openssl/symhacks.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\evp.h
+	<openssl/macros.h>
+	<stdarg.h>
+	<stdio.h>
+	<openssl/opensslconf.h>
+	<openssl/types.h>
+	<openssl/core.h>
+	<openssl/core_dispatch.h>
+	<openssl/symhacks.h>
+	<openssl/bio.h>
+	<openssl/evperr.h>
+	<openssl/params.h>
+	<openssl/objects.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\core.h
+	<stddef.h>
+	<openssl/types.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\core_dispatch.h
+	<stdarg.h>
+	<openssl/core.h>
+	<openssl/indicator.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\indicator.h
+	<openssl/params.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\params.h
+	<openssl/core.h>
+	<openssl/bn.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\bn.h
+	<openssl/macros.h>
+	<openssl/e_os2.h>
+	<stdio.h>
+	<openssl/opensslconf.h>
+	<openssl/types.h>
+	<openssl/crypto.h>
+	<openssl/bnerr.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\crypto.h
+	<openssl/macros.h>
+	<stdlib.h>
+	<time.h>
+	<openssl/e_os2.h>
+	<stdio.h>
+	<openssl/safestack.h>
+	<openssl/opensslv.h>
+	<openssl/types.h>
+	<openssl/opensslconf.h>
+	<openssl/cryptoerr.h>
+	<openssl/core.h>
+	<openssl/ebcdic.h>
+	<openssl/symhacks.h>
+	<openssl/opensslv.h>
+	<spthread.h>
+	<pthread.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\cryptoerr.h
+	<openssl/opensslconf.h>
+	<openssl/symhacks.h>
+	<openssl/cryptoerr_legacy.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\ebcdic.h
+	<openssl/macros.h>
+	<stdlib.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\bnerr.h
+	<openssl/opensslconf.h>
+	<openssl/symhacks.h>
+	<openssl/cryptoerr_legacy.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\bio.h
+	<openssl/macros.h>
+	<openssl/e_os2.h>
+	<stdio.h>
+	<stdarg.h>
+	<openssl/crypto.h>
+	<openssl/bioerr.h>
+	<openssl/core.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\bioerr.h
+	<openssl/opensslconf.h>
+	<openssl/symhacks.h>
+	<openssl/cryptoerr_legacy.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\evperr.h
+	<openssl/opensslconf.h>
+	<openssl/symhacks.h>
+	<openssl/cryptoerr_legacy.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\objects.h
+	<openssl/macros.h>
+	<openssl/obj_mac.h>
+	<openssl/bio.h>
+	<openssl/asn1.h>
+	<openssl/objectserr.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\obj_mac.h
+
+1744175995 c:\msys64\mingw64\include\openssl\asn1.h
+	<openssl/macros.h>
+	<stdio.h>
+	<time.h>
+	<openssl/e_os2.h>
+	<openssl/opensslconf.h>
+	<openssl/bio.h>
+	<openssl/safestack.h>
+	<openssl/asn1err.h>
+	<openssl/symhacks.h>
+	<openssl/types.h>
+	<openssl/bn.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\asn1err.h
+	<openssl/opensslconf.h>
+	<openssl/symhacks.h>
+	<openssl/cryptoerr_legacy.h>
+
+1744175995 c:\msys64\mingw64\include\openssl\objectserr.h
+	<openssl/opensslconf.h>
+	<openssl/symhacks.h>
+	<openssl/cryptoerr_legacy.h>
 
