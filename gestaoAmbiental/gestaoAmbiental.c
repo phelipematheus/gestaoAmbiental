@@ -167,7 +167,7 @@ void on_button_listar_industrias_clicked(GtkWidget *widget, gpointer data)
     carregar_dados(liststore);
 }
 
-void on_btn_cancelar_clicked(GtkWidget *widget, gpointer data)
+void on_btn_cancelar_resposavel_clicked(GtkWidget *widget, gpointer data)
 {
 	gtk_stack_set_visible_child_name(stack, "view_industria");
 }
@@ -198,7 +198,7 @@ void salvar_dados(const char *nome_responsavel, const char *cpf_responsavel, con
     fclose(file);
 }
 
-void on_btn_salvar_clicked(GtkWidget *widget, gpointer data)
+void on_btn_salvar_responsavel_clicked(GtkWidget *widget, gpointer data)
 {
 	char *nome_responsavel = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "input_responsavel")));
     char *cpf_responsavel = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "input_cpf_responsavel")));// numerico
@@ -227,6 +227,26 @@ void on_btn_salvar_clicked(GtkWidget *widget, gpointer data)
 	gtk_stack_set_visible_child_name(stack, "view_industria");
 }
 
+void on_btn_salva_ind_clicked(GtkWidget *widget, gpointer data)
+{
+	gtk_main_quit();
+}
+
+void on_btn_voltar_ind_clicked(GtkWidget *widget, gpointer data)
+{
+	gtk_main_quit();
+}
+
+void on_btn_relatorio_csv_ind_clicked(GtkWidget *widget, gpointer data)
+{
+	gtk_main_quit();
+}
+
+void on_btn_relatorio_txt_ind_clicked(GtkWidget *widget, gpointer data)
+{
+	gtk_main_quit();
+}
+
 int main(int argc, char *argv[])
 {
     gtk_init(&argc, &argv);
@@ -241,8 +261,12 @@ int main(int argc, char *argv[])
     "on_butto_sair_industria_clicked",          G_CALLBACK(on_butto_sair_industria_clicked),
     "on_button_cadastrar_industria_clicked",    G_CALLBACK(on_button_cadastrar_industria_clicked),
     "on_button_listar_industrias_clicked",      G_CALLBACK(on_button_listar_industrias_clicked),
-    "on_btn_cancelar_clicked",                  G_CALLBACK(on_btn_cancelar_clicked),
-    "on_btn_salvar_clicked",                    G_CALLBACK(on_btn_salvar_clicked),
+    "on_btn_cancelar_resposavel_clicked",       G_CALLBACK(on_btn_cancelar_resposavel_clicked),
+    "on_btn_salvar_responsavel_clicked",        G_CALLBACK(on_btn_salvar_responsavel_clicked),
+	"on_btn_salva_ind_clicked",					G_CALLBACK(on_btn_salva_ind_clicked),
+	"on_btn_voltar_ind_clicked",				G_CALLBACK(on_btn_voltar_ind_clicked),
+	"on_btn_relatorio_csv_ind_clicked",			G_CALLBACK(on_btn_relatorio_csv_ind_clicked),
+	"on_btn_relatorio_txt_ind_clicked",			G_CALLBACK(on_btn_relatorio_txt_ind_clicked),
      NULL);
      gtk_builder_connect_signals(builder, NULL);
 

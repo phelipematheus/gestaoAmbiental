@@ -2,6 +2,18 @@
 <!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
+  <object class="GtkListStore" id="lista_rel_ind">
+    <columns>
+      <!-- column-name Ano -->
+      <column type="gchararray"/>
+      <!-- column-name Mês -->
+      <column type="gchararray"/>
+      <!-- column-name Qtd -->
+      <column type="gchararray"/>
+      <!-- column-name Valor -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkListStore" id="lista_responsavel">
     <columns>
       <!-- column-name Responsavel -->
@@ -301,10 +313,12 @@
                 <property name="layout-style">expand</property>
                 <child>
                   <object class="GtkButton" id="butto_sair_industria">
-                    <property name="label" translatable="yes">Sair</property>
+                    <property name="label">gtk-go-back</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
+                    <property name="use-stock">True</property>
+                    <property name="always-show-image">True</property>
                     <signal name="clicked" handler="on_butto_sair_industria_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -835,11 +849,14 @@
                 <property name="can-focus">False</property>
                 <property name="layout-style">end</property>
                 <child>
-                  <object class="GtkButton" id="btn_salva">
-                    <property name="label" translatable="yes">Salvar</property>
+                  <object class="GtkButton" id="btn_salva_ind">
+                    <property name="label">gtk-save</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
+                    <property name="use-stock">True</property>
+                    <property name="always-show-image">True</property>
+                    <signal name="clicked" handler="on_btn_salva_ind_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -858,7 +875,7 @@
               <object class="GtkTreeView">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="model">liststore1</property>
+                <property name="model">lista_rel_ind</property>
                 <property name="enable-grid-lines">horizontal</property>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection"/>
@@ -915,11 +932,14 @@
                 <property name="can-focus">False</property>
                 <property name="layout-style">expand</property>
                 <child>
-                  <object class="GtkButton" id="btn_cancela">
-                    <property name="label" translatable="yes">Cancelar</property>
+                  <object class="GtkButton" id="btn_voltar_ind">
+                    <property name="label">gtk-go-back</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
+                    <property name="use-stock">True</property>
+                    <property name="always-show-image">True</property>
+                    <signal name="clicked" handler="on_btn_voltar_ind_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -928,11 +948,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="btn_csv">
-                    <property name="label" translatable="yes">Gerar Relatório CSV</property>
+                  <object class="GtkButton" id="btn_relatorio_csv_ind">
+                    <property name="label" translatable="yes">Relatório CSV</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
+                    <signal name="clicked" handler="on_btn_relatorio_csv_ind_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -941,11 +962,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="btn_txt">
-                    <property name="label" translatable="yes">Gerar Relatório TXT</property>
+                  <object class="GtkButton" id="btn_relatorio_txt_ind">
+                    <property name="label" translatable="yes">Relatório TXT</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
+                    <signal name="clicked" handler="on_btn_relatorio_txt_ind_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -970,7 +992,6 @@
       </object>
     </child>
   </object>
-  <object class="GtkListStore" id="liststore2"/>
   <object class="GtkMessageDialog" id="mensagem_dialog">
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">Aviso</property>
