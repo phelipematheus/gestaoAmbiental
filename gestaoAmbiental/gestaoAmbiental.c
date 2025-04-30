@@ -7,23 +7,12 @@
 #define MAX_LINE_LENGTH 256
 #define DB_FILE "usuarios.txt"
 #define DADOS_FILE "dados.txt"
+#define DADOS_RESIDUOS_FILE "dados_residuos.txt"
 
 GtkBuilder *builder;
 GtkWidget *window;
 GtkStack *stack;
-
-void mensagem (char texto_primario[100], char texto_secundario[100], char nome_icone[100])
-{
-    GtkMessageDialog *messageDialog = GTK_MESSAGE_DIALOG(gtk_builder_get_object(builder, "mensagem_dialog"));
-
-    g_object_set(messageDialog, "text", texto_primario, NULL);
-    g_object_set(messageDialog, "secondary_text", texto_secundario, NULL);
-    g_object_set(messageDialog, "icon_name", nome_icone, NULL);
-
-    gtk_widget_show_all(GTK_WIDGET(messageDialog));
-    gtk_dialog_run(GTK_DIALOG(messageDialog));
-    gtk_widget_hide(GTK_WIDGET(messageDialog));
-}
+gchar *text_to_save = NULL;
 
 int validar_usuario(const char *usuario, const char *senha) {
     FILE *file = fopen(DB_FILE, "r");
@@ -50,84 +39,35 @@ int validar_usuario(const char *usuario, const char *senha) {
     return 0;
 }
 
-void inserir_usuario(const char *usuario, const char *senha) {
-    FILE *file = fopen(DB_FILE, "a");
+void carregar_dados_residuos(GtkListStore *liststore, FILE *arquivo) {
+	char linha[MAX_LINE_LENGTH];
+    while (fgets(linha, sizeof(linha), arquivo)) {
+        char cnpj_empresa[15], mes_residuo_ind[10], ano_residuo_ind[5];
+        char qtd_residuos_ind[1000], custo_residuo_ind[1000];
 
-    if (!file) {
-        perror("Erro ao abrir arquivo para escrita");
-        return;
+        int ret = sscanf(linha, "%14[^,],%9[^,],%4[^,],%999[^,],%999[^,\n]",
+			cnpj_empresa, mes_residuo_ind, ano_residuo_ind, qtd_residuos_ind, custo_residuo_ind);
+
+		if (ret == 5) {
+            GtkTreeIter iter;
+            gtk_list_store_append(liststore, &iter);
+            gtk_list_store_set(liststore, &iter,
+                               0, cnpj_empresa,
+                               1, mes_residuo_ind,
+                               2, ano_residuo_ind,
+                               3, qtd_residuos_ind,
+                               4, custo_residuo_ind,
+                               -1);
+        } else {
+            printf("Erro ao ler linha: %s\n", linha);
+        }
     }
 
-    fprintf(file, "%s %s\n", usuario, senha);
-    fclose(file);
+    fclose(arquivo);
 }
 
-void login(char *usuario, char *senha)
-{
-    if(validar_usuario(usuario, senha))
-    {
-        mensagem("Bem Vindo", "Usuario Logado com sucesso!","emblem-default");
-        gtk_stack_set_visible_child_name(stack, "view_industria");
-    }
-    else
-    {
-        mensagem("Login incorreto", "Email ou senha incorretos! \n Fa\u00E7a o cadastro PRIMEIRO!","dialog-error");
-    }
-}
-
-void on_button_login_clicked(GtkWidget *widget, gpointer data)
-{
-    char *usuario = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "usuario")));
-    char *senha = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "senha")));
-    login(usuario,senha);
-}
-
-void cadastro(char *usuario, char *senha)
-{
-	if(validar_usuario(usuario, senha))
-    {
-        mensagem("Erro Cadastro !", "Usuario j\u00E1 cadastrado","dialog-error");
-    }
-    else
-    {
-		inserir_usuario(usuario, senha);
-		mensagem("Sucesso !", "Usuario cadastrado com sucesso!","emblem-default");
-    }
-}
-
-void on_button_cadastro_clicked(GtkWidget *widget, gpointer data)
-{
-    char *usuario = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "usuario")));
-    char *senha = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "senha")));
-    cadastro(usuario, senha);
-}
-
-void on_main_login_destroy(GtkWidget *widget, gpointer data)
-{
-    gtk_main_quit();
-}
-
-void on_butto_sair_industria_clicked(GtkWidget *widget, gpointer data)
-{
-	gtk_stack_set_visible_child_name(stack, "view_login");
-}
-
-void on_button_cadastrar_industria_clicked(GtkWidget *widget, gpointer data)
-{
-    gtk_stack_set_visible_child_name(stack, "view_cadastrar_industria");
-}
-
-void carregar_dados(GtkListStore *liststore) {
-    FILE *arquivo = fopen(DADOS_FILE, "r");
+void carregar_dados(GtkListStore *liststore, FILE *arquivo) {
     char linha[MAX_LINE_LENGTH];
-
-    if (!arquivo) {
-        perror("Erro ao abrir o arquivo");
-        return;
-    }
-
-    gtk_list_store_clear(liststore);
-
     while (fgets(linha, sizeof(linha), arquivo)) {
         char nome_responsavel[128], cpf_responsavel[15], nome_empresa[128], cnpj_empresa[15];
         char razao_social_empresa[128], nome_fantasia_empresa[128], email_empresa[128];
@@ -138,7 +78,6 @@ void carregar_dados(GtkListStore *liststore) {
                nome_fantasia_empresa, email_empresa, telefone_empresa, endereco_empresa, data_abertura_empresa);
 
 		if (ret == 10) {
-
             GtkTreeIter iter;
             gtk_list_store_append(liststore, &iter);
             gtk_list_store_set(liststore, &iter,
@@ -159,17 +98,6 @@ void carregar_dados(GtkListStore *liststore) {
     }
 
     fclose(arquivo);
-}
-
-void on_button_listar_industrias_clicked(GtkWidget *widget, gpointer data)
-{
-	GtkListStore *liststore = GTK_LIST_STORE(gtk_builder_get_object(builder, "lista_responsavel"));
-    carregar_dados(liststore);
-}
-
-void on_btn_cancelar_resposavel_clicked(GtkWidget *widget, gpointer data)
-{
-	gtk_stack_set_visible_child_name(stack, "view_industria");
 }
 
 void salvar_dados(const char *nome_responsavel, const char *cpf_responsavel, const char *nome_empresa,
@@ -198,8 +126,90 @@ void salvar_dados(const char *nome_responsavel, const char *cpf_responsavel, con
     fclose(file);
 }
 
-void on_btn_salvar_responsavel_clicked(GtkWidget *widget, gpointer data)
+void inserir_usuario(const char *usuario, const char *senha) {
+    FILE *file = fopen(DB_FILE, "a");
+
+    if (!file) {
+        perror("Erro ao abrir arquivo para escrita");
+        return;
+    }
+
+    fprintf(file, "%s %s\n", usuario, senha);
+    fclose(file);
+}
+
+void mensagem (char texto_primario[100], char texto_secundario[100], char nome_icone[100]) {
+    GtkMessageDialog *messageDialog = GTK_MESSAGE_DIALOG(gtk_builder_get_object(builder, "mensagem_dialog"));
+
+    g_object_set(messageDialog, "text", texto_primario, NULL);
+    g_object_set(messageDialog, "secondary_text", texto_secundario, NULL);
+    g_object_set(messageDialog, "icon_name", nome_icone, NULL);
+
+    gtk_widget_show_all(GTK_WIDGET(messageDialog));
+    gtk_dialog_run(GTK_DIALOG(messageDialog));
+    gtk_widget_hide(GTK_WIDGET(messageDialog));
+}
+
+// -------------------
+// Funções dos botões
+// -------------------
+
+void on_main_login_destroy(GtkWidget *widget, gpointer data) {
+    gtk_main_quit();
+}
+
+void on_button_login_clicked(GtkWidget *widget, gpointer data) {
+    char *usuario = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "usuario")));
+    char *senha = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "senha")));
+
+    if(validar_usuario(usuario, senha)) {
+        mensagem("Bem Vindo", "Usuario Logado com sucesso!","emblem-default");
+        gtk_stack_set_visible_child_name(stack, "view_industria");
+    } else {
+        mensagem("Login incorreto", "Email ou senha incorretos! \n Fa\u00E7a o cadastro PRIMEIRO!","dialog-error");
+    }
+}
+
+void on_button_cadastro_clicked(GtkWidget *widget, gpointer data) {
+    char *usuario = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "usuario")));
+    char *senha = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "senha")));
+
+   	if(validar_usuario(usuario, senha)) {
+        mensagem("Erro Cadastro !", "Usuario j\u00E1 cadastrado","dialog-error");
+    } else {
+		inserir_usuario(usuario, senha);
+		mensagem("Sucesso !", "Usuario cadastrado com sucesso!","emblem-default");
+    }
+
+}
+
+void on_butto_sair_industria_clicked(GtkWidget *widget, gpointer data) {
+	gtk_stack_set_visible_child_name(stack, "view_login");
+}
+
+void on_button_cadastrar_industria_clicked(GtkWidget *widget, gpointer data) {
+    gtk_stack_set_visible_child_name(stack, "view_cadastrar_industria");
+}
+
+void on_button_listar_industrias_clicked(GtkWidget *widget, gpointer data)
 {
+	GtkListStore *liststore = GTK_LIST_STORE(gtk_builder_get_object(builder, "lista_responsavel"));
+	gtk_list_store_clear(liststore);
+	FILE *arquivo = fopen(DADOS_FILE, "r");
+	if (!arquivo) {
+        perror("Erro ao abrir o arquivo");
+        return;
+    } else {
+		carregar_dados(liststore, arquivo);
+    }
+
+}
+
+void on_btn_cancelar_clicked(GtkWidget *widget, gpointer data) {
+	gtk_stack_set_visible_child_name(stack, "view_industria");
+}
+
+void on_btn_salvar_responsavel_clicked(GtkWidget *widget, gpointer data) {
 	char *nome_responsavel = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "input_responsavel")));
     char *cpf_responsavel = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "input_cpf_responsavel")));// numerico
     char *nome_empresa = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "input_nome_empresa")));
@@ -227,29 +237,81 @@ void on_btn_salvar_responsavel_clicked(GtkWidget *widget, gpointer data)
 	gtk_stack_set_visible_child_name(stack, "view_industria");
 }
 
-void on_btn_salva_ind_clicked(GtkWidget *widget, gpointer data)
-{
+void on_btn_salva_ind_clicked(GtkWidget *widget, gpointer data) {
+	char *mes_ind = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(gtk_builder_get_object(builder, "input_mes_ind")));
+	char *ano_ind = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(gtk_builder_get_object(builder, "input_ano_ind")));
+	char *qtd_residuos_ind = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "input_qtd_residuos_ind")));
+	char *custo_ind = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "input_custos_residuos_ind")));
+
+	FILE *file = fopen(DADOS_RESIDUOS_FILE, "a");
+
+    if (!file) {
+        perror("Erro ao abrir o arquivo");
+        return;
+    }
+
+    fprintf(file, "%s,%s,%s,%s,%s\n",
+            text_to_save,
+            mes_ind,
+            ano_ind,
+            qtd_residuos_ind,
+            custo_ind);
+
+    fclose(file);
+	g_free(text_to_save);
+
+	GtkListStore *liststore = GTK_LIST_STORE(gtk_builder_get_object(builder, "lista_rel_ind"));
+	gtk_list_store_clear(liststore);
+	FILE *arquivo = fopen(DADOS_RESIDUOS_FILE, "r");
+	if (!arquivo) {
+        perror("Erro ao abrir o arquivo");
+        return;
+    } else {
+		carregar_dados_residuos(liststore, arquivo);
+    }
+}
+
+void on_btn_voltar_ind_clicked(GtkWidget *widget, gpointer data) {
+	gtk_stack_set_visible_child_name(stack, "view_industria");
+}
+
+void on_btn_relatorio_csv_ind_clicked(GtkWidget *widget, gpointer data) {
 	gtk_main_quit();
 }
 
-void on_btn_voltar_ind_clicked(GtkWidget *widget, gpointer data)
-{
+void on_btn_relatorio_txt_ind_clicked(GtkWidget *widget, gpointer data) {
 	gtk_main_quit();
 }
 
-void on_btn_relatorio_csv_ind_clicked(GtkWidget *widget, gpointer data)
-{
-	gtk_main_quit();
+void on_btn_add_residuos_clicked(GtkWidget *widget, gpointer data) {
+    GtkTreeView *tree_view = GTK_TREE_VIEW(gtk_builder_get_object(builder, "id_listar_industrias"));
+    GtkTreeSelection *selection = gtk_tree_view_get_selection(tree_view);
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+
+	if (selection && gtk_tree_selection_get_selected(selection, &model, &iter)) {
+		gtk_tree_model_get(model, &iter, 3, &text_to_save, -1);
+
+		gtk_stack_set_visible_child_name(stack, "view_residuos");
+
+		GtkListStore *liststore = GTK_LIST_STORE(gtk_builder_get_object(builder, "lista_rel_ind"));
+		gtk_list_store_clear(liststore);
+		FILE *arquivo = fopen(DADOS_RESIDUOS_FILE, "r");
+		if (!arquivo) {
+			perror("Erro ao abrir o arquivo");
+			return;
+		} else {
+			carregar_dados_residuos(liststore, arquivo);
+		}
+
+    } else {
+        mensagem("Erro ao adicionar residuos! ", "Selecione um item da lista para acessar essa tela","dialog-error");
+    }
+
 }
 
-void on_btn_relatorio_txt_ind_clicked(GtkWidget *widget, gpointer data)
-{
-	gtk_main_quit();
-}
-
-int main(int argc, char *argv[])
-{
-    gtk_init(&argc, &argv);
+int main(int argc, char *argv[]) {
+	gtk_init(&argc, &argv);
 
     builder = gtk_builder_new_from_file("login.glade");
 
@@ -261,19 +323,25 @@ int main(int argc, char *argv[])
     "on_butto_sair_industria_clicked",          G_CALLBACK(on_butto_sair_industria_clicked),
     "on_button_cadastrar_industria_clicked",    G_CALLBACK(on_button_cadastrar_industria_clicked),
     "on_button_listar_industrias_clicked",      G_CALLBACK(on_button_listar_industrias_clicked),
-    "on_btn_cancelar_resposavel_clicked",       G_CALLBACK(on_btn_cancelar_resposavel_clicked),
+    "on_btn_cancelar_clicked",       			G_CALLBACK(on_btn_cancelar_clicked),
     "on_btn_salvar_responsavel_clicked",        G_CALLBACK(on_btn_salvar_responsavel_clicked),
 	"on_btn_salva_ind_clicked",					G_CALLBACK(on_btn_salva_ind_clicked),
 	"on_btn_voltar_ind_clicked",				G_CALLBACK(on_btn_voltar_ind_clicked),
 	"on_btn_relatorio_csv_ind_clicked",			G_CALLBACK(on_btn_relatorio_csv_ind_clicked),
 	"on_btn_relatorio_txt_ind_clicked",			G_CALLBACK(on_btn_relatorio_txt_ind_clicked),
-     NULL);
-     gtk_builder_connect_signals(builder, NULL);
+	"on_btn_add_residuos_clicked",				G_CALLBACK(on_btn_add_residuos_clicked),
+	NULL);
+    gtk_builder_connect_signals(builder, NULL);
 
-     stack = GTK_STACK(gtk_builder_get_object(builder, "stack"));
-     window = GTK_WIDGET(gtk_builder_get_object(builder, "main_login"));
+    stack = GTK_STACK(gtk_builder_get_object(builder, "stack"));
+    window = GTK_WIDGET(gtk_builder_get_object(builder, "main_login"));
 
-     gtk_widget_show_all(window);
-     gtk_main();
-     return 0;
+    gtk_widget_show_all(window);
+    gtk_main();
+
+    GtkTreeView *tree_view = GTK_TREE_VIEW(gtk_builder_get_object(builder, "id_listar_industrias"));
+    GtkTreeSelection *selection = gtk_tree_view_get_selection(tree_view);
+	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+
+    return 0;
 }

@@ -2,6 +2,20 @@
 <!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
+  <object class="GtkListStore" id="lista_rel_ind">
+    <columns>
+      <!-- column-name CNPJ -->
+      <column type="gchararray"/>
+      <!-- column-name Ano -->
+      <column type="gchararray"/>
+      <!-- column-name Mês -->
+      <column type="gchararray"/>
+      <!-- column-name Qtd -->
+      <column type="gchararray"/>
+      <!-- column-name Valor -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkListStore" id="lista_responsavel">
     <columns>
       <!-- column-name Responsavel -->
@@ -23,18 +37,6 @@
       <!-- column-name Endereço -->
       <column type="gchararray"/>
       <!-- column-name Data -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="liststore2">
-    <columns>
-      <!-- column-name Ano -->
-      <column type="gchararray"/>
-      <!-- column-name Mês -->
-      <column type="gchararray"/>
-      <!-- column-name Qtd -->
-      <column type="gchararray"/>
-      <!-- column-name Valor -->
       <column type="gchararray"/>
     </columns>
   </object>
@@ -182,7 +184,7 @@
             <property name="can-focus">False</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkTreeView">
+              <object class="GtkTreeView" id="id_listar_industrias">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="model">lista_responsavel</property>
@@ -324,7 +326,7 @@
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">2</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -334,6 +336,20 @@
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
                     <signal name="clicked" handler="on_button_cadastrar_industria_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="btn_add_residuos">
+                    <property name="label" translatable="yes">Add Residos</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="on_btn_add_residuos_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -352,7 +368,7 @@
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
               </object>
@@ -668,10 +684,12 @@
                 <property name="margin-top">5</property>
                 <child>
                   <object class="GtkButton" id="btn_cancelar">
-                    <property name="label" translatable="yes">Cancelar</property>
+                    <property name="label">gtk-go-back</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
+                    <property name="use-stock">True</property>
+                    <property name="always-show-image">True</property>
                     <signal name="clicked" handler="on_btn_cancelar_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -681,12 +699,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="btn_salvar">
+                  <object class="GtkButton" id="btn_salvar_responsavel">
                     <property name="label" translatable="yes">Salvar</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <signal name="clicked" handler="on_btn_salvar_clicked" swapped="no"/>
+                    <signal name="clicked" handler="on_btn_salvar_responsavel_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -731,7 +749,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkComboBoxText">
+                  <object class="GtkComboBoxText" id="input_mes_ind">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="active">0</property>
@@ -767,7 +785,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry">
+                  <object class="GtkEntry" id="input_custos_residuos_ind">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                   </object>
@@ -788,7 +806,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry">
+                  <object class="GtkEntry" id="input_qtd_residuos_ind">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                   </object>
@@ -809,7 +827,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkComboBoxText">
+                  <object class="GtkComboBoxText" id="input_ano_ind">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <items>
@@ -875,17 +893,46 @@
               <object class="GtkTreeView">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="model">liststore2</property>
+                <property name="model">lista_rel_ind</property>
                 <property name="enable-grid-lines">horizontal</property>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection"/>
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn">
-                    <property name="title" translatable="yes">Ano</property>
+                    <property name="title" translatable="yes">CNPJ</property>
                     <property name="expand">True</property>
                     <child>
                       <object class="GtkCellRendererText"/>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn">
+                    <property name="title" translatable="yes">Quantidade</property>
+                    <property name="expand">True</property>
+                    <child>
+                      <object class="GtkCellRendererText"/>
+                      <attributes>
+                        <attribute name="single-paragraph-mode">0</attribute>
+                        <attribute name="text">3</attribute>
+                        <attribute name="max-width-chars">2</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn">
+                    <property name="title" translatable="yes">Valor</property>
+                    <property name="expand">True</property>
+                    <child>
+                      <object class="GtkCellRendererText"/>
+                      <attributes>
+                        <attribute name="text">4</attribute>
+                      </attributes>
                     </child>
                   </object>
                 </child>
@@ -895,36 +942,30 @@
                     <property name="expand">True</property>
                     <child>
                       <object class="GtkCellRendererText"/>
+                      <attributes>
+                        <attribute name="text">2</attribute>
+                      </attributes>
                     </child>
                   </object>
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn">
-                    <property name="title" translatable="yes">Quantidade de resíduos</property>
+                    <property name="title" translatable="yes">Ano</property>
                     <property name="expand">True</property>
                     <child>
                       <object class="GtkCellRendererText"/>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkTreeViewColumn">
-                    <property name="title" translatable="yes">Valor de custo</property>
-                    <property name="expand">True</property>
-                    <child>
-                      <object class="GtkCellRendererText"/>
+                      <attributes>
+                        <attribute name="text">1</attribute>
+                      </attributes>
                     </child>
                   </object>
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">2</property>
               </packing>
-            </child>
-            <child>
-              <placeholder/>
             </child>
             <child>
               <object class="GtkButtonBox">
@@ -984,7 +1025,7 @@
             </child>
           </object>
           <packing>
-            <property name="name">page0</property>
+            <property name="name">view_residuos</property>
             <property name="title" translatable="yes">page0</property>
             <property name="position">3</property>
           </packing>
