@@ -31,7 +31,6 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="../login.glade" />
 		<Unit filename="gestaoAmbiental.c">
 			<Option compilerVar="CC" />
 		</Unit>
