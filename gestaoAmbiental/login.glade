@@ -345,7 +345,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="btn_add_residuos">
-                    <property name="label" translatable="yes">Add Residos</property>
+                    <property name="label" translatable="yes">Add Resíduos</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>

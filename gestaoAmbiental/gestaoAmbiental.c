@@ -575,8 +575,8 @@ void on_button_rel_global_csv_clicked(GtkWidget *widget, gpointer data) {
 #endif
     fp_saida = open_file_with_incremental_name(downloadsPath);
     if (fp_saida == NULL) {
-        mensagem("Erro!", "Erro ao abrir o arquivo de saída.", "dialog-error");
-        g_print("Erro ao abrir o arquivo de saída.\n");
+        mensagem("Erro!", "Erro ao abrir o arquivo de sa\u00EDda.", "dialog-error");
+        g_print("Erro ao abrir o arquivo de sa\u00EDda.\n");
         return;
     }
 
@@ -596,7 +596,7 @@ void on_button_rel_global_csv_clicked(GtkWidget *widget, gpointer data) {
     fclose(fp_residuos);
     fclose(fp_saida);
 
-    printf("Relatório global gerado com sucesso em %s\n", downloadsPath);
+    printf("Relat\u00F3rio global gerado com sucesso em %s\n", downloadsPath);
 }
 
 void on_button_rel_global_txt_clicked(GtkWidget *widget, gpointer data) {
@@ -609,8 +609,8 @@ void on_button_rel_global_txt_clicked(GtkWidget *widget, gpointer data) {
 #endif
     fp_saida = fopen(downloadsPath, "w");
     if (fp_saida == NULL) {
-        mensagem("Erro!", "Erro ao abrir o arquivo de saída.", "dialog-error");
-        g_print("Erro ao abrir o arquivo de saída.\n");
+        mensagem("Erro!", "Erro ao abrir o arquivo de sa\u00EDda.", "dialog-error");
+        g_print("Erro ao abrir o arquivo de sa\u00EDda.\n");
         return;
     }
 
@@ -629,7 +629,7 @@ void on_button_rel_global_txt_clicked(GtkWidget *widget, gpointer data) {
     fclose(fp_residuos);
     fclose(fp_saida);
 
-    printf("Relatório global gerado com sucesso em %s\n", downloadsPath);
+    printf("Relat\u00F3rio global gerado com sucesso em %s\n", downloadsPath);
 }
 
 void on_button_delete_industria_clicked(GtkWidget *widget, gpointer data) {
