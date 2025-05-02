@@ -753,16 +753,16 @@ void on_btn_relatorio_csv_ind_clicked(GtkWidget *widget, gpointer data) {
     FILE *outputFile = open_file_with_incremental_name(downloadsPath);
     if (outputFile == NULL) {
         fclose(inputFile);
-        mensagem("Erro!", "Erro ao abrir o arquivo de saída.", "dialog-error");
-        g_print("Erro ao abrir o arquivo de saída.\n");
+        mensagem("Erro!", "Erro ao abrir o arquivo de sa\u00EDda.", "dialog-error");
+        g_print("Erro ao abrir o arquivo de sa\u00EDda.\n");
         return;
     }
 
 	escrever_relatorio(outputFile, relatorios, anoCount);
     fclose(outputFile);
 
-    mensagem("Sucesso!", "Relatório gerado com sucesso na pasta Downloads.", "dialog-info");
-    g_print("Relatório gerado com sucesso.\n");
+    mensagem("Sucesso!", "Relat\u00F3rio gerado com sucesso na pasta Downloads.", "dialog-info");
+    g_print("Relat\u00F3rio gerado com sucesso.\n");
 }
 
 void on_btn_relatorio_txt_ind_clicked(GtkWidget *widget, gpointer data) {
@@ -790,16 +790,16 @@ void on_btn_relatorio_txt_ind_clicked(GtkWidget *widget, gpointer data) {
     FILE *outputFile = open_file_with_incremental_name(downloadsPath);
     if (outputFile == NULL) {
         fclose(inputFile);
-        mensagem("Erro!", "Erro ao abrir o arquivo de saída.", "dialog-error");
-        g_print("Erro ao abrir o arquivo de saída.\n");
+        mensagem("Erro!", "Erro ao abrir o arquivo de sa\u00EDda.", "dialog-error");
+        g_print("Erro ao abrir o arquivo de sa\u00EDda.\n");
         return;
     }
 
 	escrever_relatorio(outputFile, relatorios, anoCount);
     fclose(outputFile);
 
-    mensagem("Sucesso!", "Relatório gerado com sucesso na pasta Downloads.", "dialog-info");
-    g_print("Relatório gerado com sucesso.\n");
+    mensagem("Sucesso!", "Relat\u00F3rio gerado com sucesso na pasta Downloads.", "dialog-info");
+    g_print("Relat\u00F3rio gerado com sucesso.\n");
 }
 
 void on_btn_add_residuos_clicked(GtkWidget *widget, gpointer data) {
@@ -824,7 +824,7 @@ void on_btn_add_residuos_clicked(GtkWidget *widget, gpointer data) {
 		}
 
     } else {
-        mensagem("Erro ao adicionar residuos! ", "Selecione um item da lista para acessar essa tela","dialog-error");
+        mensagem("Erro ao adicionar res\u00EDduos! ", "Selecione um item da lista para acessar essa tela","dialog-error");
     }
 	g_free(text_to_save);
 }
