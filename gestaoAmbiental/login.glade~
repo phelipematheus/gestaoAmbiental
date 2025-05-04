@@ -36,7 +36,9 @@
       <column type="gchararray"/>
       <!-- column-name Endereço -->
       <column type="gchararray"/>
-      <!-- column-name Data -->
+      <!-- column-name Estado -->
+      <column type="gchararray"/>
+      <!-- column-name Dt Abertura -->
       <column type="gchararray"/>
     </columns>
   </object>
@@ -292,11 +294,22 @@
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn">
+                    <property name="title" translatable="yes">Estado</property>
+                    <child>
+                      <object class="GtkCellRendererAccel"/>
+                      <attributes>
+                        <attribute name="text">9</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn">
                     <property name="title" translatable="yes">Dt Abertura</property>
                     <child>
                       <object class="GtkCellRendererText"/>
                       <attributes>
-                        <attribute name="text">9</attribute>
+                        <attribute name="text">10</attribute>
                       </attributes>
                     </child>
                   </object>
@@ -345,7 +358,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="btn_add_residuos">
-                    <property name="label" translatable="yes">Add Residos</property>
+                    <property name="label" translatable="yes">Add Resíduos</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
@@ -383,6 +396,22 @@
                     <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_delete_industria">
+                    <property name="label">gtk-delete</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="use-stock">True</property>
+                    <property name="always-show-image">True</property>
+                    <signal name="clicked" handler="on_button_delete_industria_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">5</property>
                   </packing>
                 </child>
               </object>
@@ -1069,6 +1098,22 @@
                     <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="btn_delete_ind">
+                    <property name="label">gtk-delete</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <property name="use-stock">True</property>
+                    <property name="always-show-image">True</property>
+                    <signal name="clicked" handler="on_btn_delete_ind_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
               </object>

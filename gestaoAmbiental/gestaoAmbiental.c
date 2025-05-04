@@ -376,13 +376,13 @@ void carregar_dados(GtkListStore *liststore, FILE *arquivo) {
     while (fgets(linha, sizeof(linha), arquivo)) {
         char nome_responsavel[128], cpf_responsavel[15], nome_empresa[128], cnpj_empresa[15];
         char razao_social_empresa[128], nome_fantasia_empresa[128], email_empresa[128];
-        char telefone_empresa[15], endereco_empresa[128],data_abertura_empresa[11];
+        char telefone_empresa[15], endereco_empresa[128], estado[50], data_abertura_empresa[11];
 
-        int ret = sscanf(linha, "%127[^,],%14[^,],%127[^,],%14[^,],%127[^,],%127[^,],%127[^,],%14[^,],%127[^,\n],%10[^,\n]",
+        int ret = sscanf(linha, "%127[^,],%14[^,],%127[^,],%14[^,],%127[^,],%127[^,],%127[^,],%14[^,],%127[^,],%49[^,],%10[^,\n]",
                nome_responsavel, cpf_responsavel, nome_empresa, cnpj_empresa, razao_social_empresa,
-               nome_fantasia_empresa, email_empresa, telefone_empresa, endereco_empresa, data_abertura_empresa);
+               nome_fantasia_empresa, email_empresa, telefone_empresa, endereco_empresa, estado, data_abertura_empresa);
 
-		if (ret == 10) {
+		if (ret == 11) {
             GtkTreeIter iter;
             gtk_list_store_append(liststore, &iter);
             gtk_list_store_set(liststore, &iter,
@@ -395,7 +395,8 @@ void carregar_dados(GtkListStore *liststore, FILE *arquivo) {
                                6, email_empresa,
                                7, telefone_empresa,
                                8, endereco_empresa,
-                               9, data_abertura_empresa,
+                               9, estado,
+                               10, data_abertura_empresa,
                                -1);
         } else {
             printf("Erro ao ler linha: %s\n", linha);
@@ -407,8 +408,8 @@ void carregar_dados(GtkListStore *liststore, FILE *arquivo) {
 
 void salvar_dados(const char *nome_responsavel, const char *cpf_responsavel, const char *nome_empresa,
                   const char *cnpj_empresa, const char *razao_social_empresa, const char *nome_fantasia_empresa,
-                  const char *email_empresa, const char *telefone_empresa, const char *estado_empresa,
-				  const char *endereco_empresa, const char *data_abertura_empresa) {
+                  const char *email_empresa, const char *telefone_empresa, const char *endereco_empresa,
+				  const char *estado_empresa, const char *data_abertura_empresa) {
     FILE *file = fopen(DADOS_FILE, "a");
 
     if (!file) {
@@ -425,8 +426,8 @@ void salvar_dados(const char *nome_responsavel, const char *cpf_responsavel, con
             nome_fantasia_empresa,
             email_empresa,
             telefone_empresa,
-            estado_empresa,
             endereco_empresa,
+            estado_empresa,
             data_abertura_empresa);
 
     fclose(file);
@@ -660,6 +661,16 @@ void on_button_delete_industria_clicked(GtkWidget *widget, gpointer data) {
 
 void on_btn_cancelar_clicked(GtkWidget *widget, gpointer data) {
 	gtk_stack_set_visible_child_name(stack, "view_industria");
+
+	GtkListStore *liststore = GTK_LIST_STORE(gtk_builder_get_object(builder, "lista_responsavel"));
+	gtk_list_store_clear(liststore);
+	FILE *arquivo = fopen(DADOS_FILE, "r");
+	if (!arquivo) {
+		perror("Erro ao abrir o arquivo");
+		return;
+	} else {
+		carregar_dados(liststore, arquivo);
+	}
 }
 
 void on_btn_salvar_responsavel_clicked(GtkWidget *widget, gpointer data) {
@@ -671,8 +682,8 @@ void on_btn_salvar_responsavel_clicked(GtkWidget *widget, gpointer data) {
     char *nome_fantasia_empresa = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "input_nome_fantasia")));
     char *email_empresa = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "input_emai")));
     char *telefone_empresa = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "input_telefone")));
-    char *estado_empresa = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(gtk_builder_get_object(builder, "input_combo_estado")));
     char *endereco_empresa = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "input_endereco")));
+    char *estado_empresa = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(gtk_builder_get_object(builder, "input_combo_estado")));
     char data_abertura_empresa[11];
 
     guint ano, mes, dia;
@@ -682,11 +693,21 @@ void on_btn_salvar_responsavel_clicked(GtkWidget *widget, gpointer data) {
 
     salvar_dados(nome_responsavel, cpf_responsavel, nome_empresa,
                   cnpj_empresa, razao_social_empresa, nome_fantasia_empresa,
-                  email_empresa, telefone_empresa,estado_empresa , endereco_empresa, data_abertura_empresa);
+                  email_empresa, telefone_empresa,endereco_empresa, estado_empresa, data_abertura_empresa);
 
     mensagem("Sucesso", "Dados salvos com sucesso!", "emblem-default");
 
 	gtk_stack_set_visible_child_name(stack, "view_industria");
+
+	GtkListStore *liststore = GTK_LIST_STORE(gtk_builder_get_object(builder, "lista_responsavel"));
+	gtk_list_store_clear(liststore);
+	FILE *arquivo = fopen(DADOS_FILE, "r");
+	if (!arquivo) {
+		perror("Erro ao abrir o arquivo");
+		return;
+	} else {
+		carregar_dados(liststore, arquivo);
+	}
 }
 
 void on_btn_salva_ind_clicked(GtkWidget *widget, gpointer data) {
@@ -826,7 +847,6 @@ void on_btn_add_residuos_clicked(GtkWidget *widget, gpointer data) {
     } else {
         mensagem("Erro ao adicionar res\u00EDduos! ", "Selecione um item da lista para acessar essa tela","dialog-error");
     }
-	g_free(text_to_save);
 }
 
 void on_btn_delete_ind_clicked (GtkWidget *widget, gpointer data) {

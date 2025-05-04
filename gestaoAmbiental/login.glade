@@ -36,7 +36,9 @@
       <column type="gchararray"/>
       <!-- column-name Endereço -->
       <column type="gchararray"/>
-      <!-- column-name Data -->
+      <!-- column-name Estado -->
+      <column type="gchararray"/>
+      <!-- column-name Dt Abertura -->
       <column type="gchararray"/>
     </columns>
   </object>
@@ -292,11 +294,22 @@
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn">
-                    <property name="title" translatable="yes">Dt Abertura</property>
+                    <property name="title" translatable="yes">Estado</property>
                     <child>
                       <object class="GtkCellRendererText"/>
                       <attributes>
                         <attribute name="text">9</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn">
+                    <property name="title" translatable="yes">Dt Abertura</property>
+                    <child>
+                      <object class="GtkCellRendererText"/>
+                      <attributes>
+                        <attribute name="text">10</attribute>
                       </attributes>
                     </child>
                   </object>
