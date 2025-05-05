@@ -357,8 +357,8 @@ void carregar_dados_residuos(GtkListStore *liststore, FILE *arquivo) {
 				gtk_list_store_append(liststore, &iter);
 				gtk_list_store_set(liststore, &iter,
 								   0, cnpj_empresa,
-								   1, mes_residuo_ind,
-								   2, ano_residuo_ind,
+								   1, ano_residuo_ind,
+								   2, mes_residuo_ind,
 								   3, qtd_residuos_ind,
 								   4, custo_residuo_ind,
 								   -1);
