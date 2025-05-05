@@ -742,11 +742,10 @@ void on_btn_salva_ind_clicked(GtkWidget *widget, gpointer data) {
     } else {
 		carregar_dados_residuos(liststore, arquivo);
     }
-    g_free(text_to_save);
-    gtk_stack_set_visible_child_name(stack, "view_industria");
 }
 
 void on_btn_voltar_ind_clicked(GtkWidget *widget, gpointer data) {
+	g_free(text_to_save);
 	gtk_stack_set_visible_child_name(stack, "view_industria");
 }
 
