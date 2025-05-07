@@ -38,7 +38,7 @@
       <column type="gchararray"/>
       <!-- column-name Estado -->
       <column type="gchararray"/>
-      <!-- column-name Dt Abertura -->
+      <!-- column-name Dt -->
       <column type="gchararray"/>
     </columns>
   </object>
@@ -110,7 +110,7 @@
                 <property name="can-focus">True</property>
                 <property name="margin-top">5</property>
                 <property name="margin-bottom">5</property>
-                <property name="text" translatable="yes">Usuario</property>
+                <property name="placeholder-text" translatable="yes">Usuario</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -125,7 +125,7 @@
                 <property name="margin-top">5</property>
                 <property name="margin-bottom">5</property>
                 <property name="visibility">False</property>
-                <property name="text" translatable="yes">Senha</property>
+                <property name="placeholder-text" translatable="yes">Senha</property>
                 <property name="input-purpose">password</property>
               </object>
               <packing>

@@ -33,7 +33,7 @@ typedef struct {
 
 int get_mes_index(const char *mes) {
     const char *meses[] = {
-        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+        "Janeiro", "Fevereiro", "MarÃ§o", "Abril", "Maio", "Junho",
         "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
     };
     for (int i = 0; i < MAX_MESES; i++) {
@@ -44,30 +44,81 @@ int get_mes_index(const char *mes) {
     return -1;
 }
 
-const char* obter_regiao(const char* estado) {
-    if (strcmp(estado, "Acre (AC)") == 0 || strcmp(estado, "Amapá (AP)") == 0 || strcmp(estado, "Amazonas (AM)") == 0 ||
-        strcmp(estado, "Maranhão (MA)") == 0 || strcmp(estado, "Pará (PA)") == 0 || strcmp(estado, "Rondônia (RO)") == 0 ||
-        strcmp(estado, "Roraima (RR)") == 0 || strcmp(estado, "Tocantins (TO)") == 0) {
-        return "Região Norte";
-    } else if (strcmp(estado, "Alagoas (AL)") == 0 || strcmp(estado, "Bahia (BA)") == 0 || strcmp(estado, "Ceará (CE)") == 0 ||
-               strcmp(estado, "Maranhão (MA)") == 0 || strcmp(estado, "Paraíba (PB)") == 0 || strcmp(estado, "Pernambuco (PE)") == 0 ||
-               strcmp(estado, "Piauí (PI)") == 0 || strcmp(estado, "Rio Grande do Norte (RN)") == 0 || strcmp(estado, "Sergipe (SE)") == 0) {
-        return "Região Nordeste";
-    } else if (strcmp(estado, "Goiás (GO)") == 0 || strcmp(estado, "Mato Grosso (MT)") == 0 || strcmp(estado, "Mato Grosso do Sul (MS)") == 0 ||
-               strcmp(estado, "Distrito Federal (DF)") == 0) {
-        return "Região Centro-Oeste";
-    } else if (strcmp(estado, "Espírito Santo (ES)") == 0 || strcmp(estado, "Minas Gerais (MG)") == 0 || strcmp(estado, "Rio de Janeiro (RJ)") == 0 ||
-               strcmp(estado, "São Paulo (SP)") == 0) {
-        return "Região Sudeste";
-    } else if (strcmp(estado, "Paraná (PR)") == 0 || strcmp(estado, "Rio Grande do Sul (RS)") == 0 || strcmp(estado, "Santa Catarina (SC)") == 0) {
-        return "Região Sul";
+char* corrigir_acento(const char* str) {
+    size_t len = strlen(str);
+    char *resultado = malloc(len + 1);
+    if (!resultado) return NULL;
+
+    size_t i = 0, j = 0;
+    while (i < len) {
+        if (str[i] == 'Ãƒ') {
+            if (i + 1 < len) {
+                if (str[i+1] == 'Â£') {
+                    // "ÃƒÂ£" â†’ "Ã£"
+                    resultado[j++] = (char)0xE3; // 'Ã£' Latin-1
+                    i += 2;
+                    continue;
+                } else if (str[i+1] == 'Â¡') {
+                    // "ÃƒÂ¡" â†’ "Ã¡"
+                    resultado[j++] = (char)0xE1; // 'Ã¡'
+                    i += 2;
+                    continue;
+                } else if (str[i+1] == 'Â¢') {
+                    // "ÃƒÂ¢" â†’ "Ã¢"
+                    resultado[j++] = (char)0xE2; // 'Ã¢'
+                    i += 2;
+                    continue;
+                } else if (str[i+1] == 'Â£') {
+                    // "ÃƒÂ£" jÃ¡ tratada acima
+                } else {
+                    resultado[j++] = str[i];
+                    i++;
+                }
+            } else {
+                resultado[j++] = str[i];
+                i++;
+            }
+        } else {
+            resultado[j++] = str[i];
+            i++;
+        }
     }
-    return "Região Desconhecida";
+    resultado[j] = '\0';
+    return resultado;
+}
+
+const char* obter_regiao(const char* estado) {
+	g_print("ESTADO DENTRO DO OBTER: %s\n", estado);
+    if (strcmp(estado, "Acre (AC)") == 0 || strcmp(estado, "AmapÃ¡ (AP)") == 0 || strcmp(estado, "Amazonas (AM)") == 0 ||
+        strcmp(estado, "MaranhÃ£o (MA)") == 0 || strcmp(estado, "ParÃ¡ (PA)") == 0 || strcmp(estado, "RondÃ´nia (RO)") == 0 ||
+        strcmp(estado, "Roraima (RR)") == 0 || strcmp(estado, "Tocantins (TO)") == 0) {
+        return "RegiÃ£o Norte";
+    } else if (strcmp(estado, "Alagoas (AL)") == 0 || strcmp(estado, "Bahia (BA)") == 0 || strcmp(estado, "CearÃ¡ (CE)") == 0 ||
+               strcmp(estado, "MaranhÃ£o (MA)") == 0 || strcmp(estado, "ParaÃ­ba (PB)") == 0 || strcmp(estado, "Pernambuco (PE)") == 0 ||
+               strcmp(estado, "PiauÃ­ (PI)") == 0 || strcmp(estado, "Rio Grande do Norte (RN)") == 0 || strcmp(estado, "Sergipe (SE)") == 0) {
+        return "RegiÃ£o Nordeste";
+    } else if (strcmp(estado, "GoiÃ¡s (GO)") == 0 || strcmp(estado, "Mato Grosso (MT)") == 0 || strcmp(estado, "Mato Grosso do Sul (MS)") == 0 ||
+               strcmp(estado, "Distrito Federal (DF)") == 0) {
+        return "RegiÃ£o Centro-Oeste";
+    } else if (strcmp(estado, "EspÃ­rito Santo (ES)") == 0 || strcmp(estado, "Minas Gerais (MG)") == 0 || strcmp(estado, "Rio de Janeiro (RJ)") == 0 ||
+               strcmp(estado, "SÃ£o Paulo (SP)") == 0 || strcmp(estado, "SÃƒÂ£o Paulo (SP)") == 0 ) {
+        return "RegiÃ£o Sudeste";
+    } else if (strcmp(estado, "ParanÃ¡ (PR)") == 0 || strcmp(estado, "Rio Grande do Sul (RS)") == 0 || strcmp(estado, "Santa Catarina (SC)") == 0) {
+        return "RegiÃ£o Sul";
+    }
+    return "RegiÃ£o Desconhecida";
 }
 
 int validar_usuario(const char *usuario, const char *senha) {
     FILE *file = fopen(DB_FILE, "r");
     char linha[MAX_LINE_LENGTH];
+
+    g_print("USUARIO: %s",usuario);
+    g_print("SENHA: %s",senha);
+
+    if(usuario == NULL || usuario[0] == '\0' || senha == NULL || senha[0] == '\0'){
+		return 2;
+    }
 
     if (!file) {
         perror("Erro ao abrir arquivo");
@@ -90,14 +141,23 @@ int validar_usuario(const char *usuario, const char *senha) {
     return 0;
 }
 
-FILE *open_file_with_incremental_name(char *base_path) {
+FILE *open_file_with_incremental_name(char *base_path, int type) {
     char filePath[MAX_PATH];
     int count = 0;
+    const char *extension;
+
+    if(type == 0){
+		extension = ".csv";
+    } else {
+    	extension = ".txt";
+    }
+
+
     do {
         if (count == 0) {
-            snprintf(filePath, sizeof(filePath), "%s", base_path);
+            snprintf(filePath, sizeof(filePath), "%s%s", base_path, extension);
         } else {
-            snprintf(filePath, sizeof(filePath), "%s(%d)", base_path, count);
+            snprintf(filePath, sizeof(filePath), "%s(%d)%s", base_path, count, extension);
         }
         FILE *file = fopen(filePath, "r");
         if (file) {
@@ -129,7 +189,7 @@ void extrair_dados(FILE *inputFile, AnoRelatorio *relatorios, int *anoCount, cha
         int numFields = sscanf(linha, "%[^,],%[^,],%d,%d,%d", cnpj, mes, &ano, &quantidade, &custo);
 
         if (numFields != 5) {
-            printf("Formato inválido na linha: %s\n", linha);
+            printf("Formato invÃ¡lido na linha: %s\n", linha);
             continue;
         }
 
@@ -163,7 +223,7 @@ void extrair_dados(FILE *inputFile, AnoRelatorio *relatorios, int *anoCount, cha
                 }
                 (*anoCount)++;
             } else {
-                printf("Máximo de anos atingido.\n");
+                printf("MÃ¡ximo de anos atingido.\n");
             }
         }
     }
@@ -178,9 +238,9 @@ void escrever_relatorio(FILE *outputFile, AnoRelatorio *relatorios, int anoCount
         fprintf(outputFile, "Primeiro,%d\n", relatorios[i].semestralTotais[0]);
         fprintf(outputFile, "Segundo,%d\n", relatorios[i].semestralTotais[1]);
 
-        fprintf(outputFile, "\nMês,Total de Gastos\n");
+        fprintf(outputFile, "\nMÃªs,Total de Gastos\n");
         const char *meses[] = {
-            "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+            "Janeiro", "Fevereiro", "MarÃ§o", "Abril", "Maio", "Junho",
             "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
         };
         for (int j = 0; j < MAX_MESES; j++) {
@@ -192,103 +252,105 @@ void escrever_relatorio(FILE *outputFile, AnoRelatorio *relatorios, int anoCount
 
 void gerar_relatorio(const char *caminho_saida, const char *formato, FILE *fp_saida, FILE *fp_dados, FILE *fp_residuos) {
     char linha[256];
+    char linha_residuos[256];
+
     double menor_producao = __DBL_MAX__;
-    char empresa_menor_producao[100];
+    char empresa_menor_producao[100] = "";
     int total_residuos = 0;
-    char estado_maior_volume[50];
-    double maior_volume = 0;
+    char estado_maior_volume[50] = "";
+    int maior_volume = 0;
     double aporte_financeiro = 0;
 
-    int residuos_por_regiao[5] = {0}; // Índices: 0-Norte, 1-Nordeste, 2-Centro-Oeste, 3-Sudeste, 4-Sul
+    int residuos_por_regiao[5] = {0}; // Norte, Nordeste, Centro-Oeste, Sudeste, Sul
 
     Empresa empresas[MAX_EMPRESAS];
     int empresa_count = 0;
 
-    fprintf(fp_saida, "Estado,Empresa,CNPJ,Quantidade de Resíduos,Total Cost\n");
+	fprintf(fp_saida, "Estado,Empresa,CNPJ,Quantidade de ResÃ­duos,Total Cost\n");
 
     while (fgets(linha, sizeof(linha), fp_dados)) {
-        char *responsavel, *cpf, *empresa, *cnpj, *razao_social, *nome_fantasia, *email, *telefone, *endereco, *estado, *data_abertura;
-        responsavel = strtok(linha, ",");
-        cpf = strtok(NULL, ",");
-        empresa = strtok(NULL, ",");
-        cnpj = strtok(NULL, ",");
-        razao_social = strtok(NULL, ",");
-        nome_fantasia = strtok(NULL, ",");
-        email = strtok(NULL, ",");
-        telefone = strtok(NULL, ",");
-        endereco = strtok(NULL, ",");
-        estado = strtok(NULL, ",");
-        data_abertura = strtok(NULL, "\n");
+        char *responsavel = strtok(linha, ",");
+        char *cpf = strtok(NULL, ",");
+        char *empresa_nome = strtok(NULL, ",");
+        char *cnpj = strtok(NULL, ",");
+        strtok(NULL, ",");
+        strtok(NULL, ",");
+        strtok(NULL, ",");
+        strtok(NULL, ",");
+        strtok(NULL, ",");
+        char *estado = strtok(NULL, ",");
+        strtok(NULL, "\n");
 
-        double custo_total_empresa = 0;
-        int quantidade_residuos = 0;
+        char *estado_corrigido = corrigir_acento(estado);
 
-        // Resetar o ponteiro do arquivo de resíduos
+        double soma_custo = 0;
+        int soma_residuos = 0;
+
         fseek(fp_residuos, 0, SEEK_SET);
-        while (fgets(linha, sizeof(linha), fp_residuos)) {
-            char *cnpj_residuo = strtok(linha, ",");
+        while (fgets(linha_residuos, sizeof(linha_residuos), fp_residuos)) {
+            char *cnpj_residuo = strtok(linha_residuos, ",");
             char *mes = strtok(NULL, ",");
             char *ano = strtok(NULL, ",");
-            char *quantidade = strtok(NULL, ",");
-            char *valor_estimado = strtok(NULL, "\n");
+            char *qtd_str = strtok(NULL, ",");
+            char *valor_str = strtok(NULL, "\n");
+            int qtd_residuos = atoi(qtd_str);
+            double valor_estimado = atof(valor_str);
 
             if (strcmp(cnpj_residuo, cnpj) == 0) {
-                int qnt_residuos = atoi(quantidade);
-                double valor_custo = atof(valor_estimado);
-
-                quantidade_residuos += qnt_residuos;
-                custo_total_empresa += valor_custo;
+                soma_residuos += qtd_residuos;
+                soma_custo += valor_estimado;
             }
         }
 
         strcpy(empresas[empresa_count].cnpj, cnpj);
-        strcpy(empresas[empresa_count].empresa, empresa);
-        empresas[empresa_count].custo_total = custo_total_empresa;
-        empresas[empresa_count].quantidade_residuos = quantidade_residuos;
+        strcpy(empresas[empresa_count].empresa, empresa_nome);
+        empresas[empresa_count].custo_total = soma_custo;
+        empresas[empresa_count].quantidade_residuos = soma_residuos;
         empresa_count++;
 
-        fprintf(fp_saida, "%s,%s,%s,%d,%.2f\n", estado, empresa, cnpj, quantidade_residuos, custo_total_empresa);
+        fprintf(fp_saida, "%s,%s,%s,%d,%.2f\n", estado_corrigido, empresa_nome, cnpj, soma_residuos, soma_custo);
 
-        aporte_financeiro += custo_total_empresa;
+        aporte_financeiro += soma_custo;
+        total_residuos += soma_residuos;
 
-        total_residuos += quantidade_residuos;
-        if (quantidade_residuos > maior_volume) {
-            maior_volume = quantidade_residuos;
-            strcpy(estado_maior_volume, estado);
+        if (soma_residuos > maior_volume) {
+            maior_volume = soma_residuos;
+            strcpy(estado_maior_volume, estado_corrigido);
         }
 
-        if (quantidade_residuos < menor_producao) {
-            menor_producao = quantidade_residuos;
-            strcpy(empresa_menor_producao, empresa);
+        if (soma_residuos < menor_producao) {
+            menor_producao = soma_residuos;
+            strcpy(empresa_menor_producao, empresa_nome);
         }
 
-        const char *regiao = obter_regiao(estado);
-        if (strcmp(regiao, "Região Norte") == 0) {
-            residuos_por_regiao[0] += quantidade_residuos;
-        } else if (strcmp(regiao, "Região Nordeste") == 0) {
-            residuos_por_regiao[1] += quantidade_residuos;
-        } else if (strcmp(regiao, "Região Centro-Oeste") == 0) {
-            residuos_por_regiao[2] += quantidade_residuos;
-        } else if (strcmp(regiao, "Região Sudeste") == 0) {
-            residuos_por_regiao[3] += quantidade_residuos;
-        } else if (strcmp(regiao, "Região Sul") == 0) {
-            residuos_por_regiao[4] += quantidade_residuos;
-        }
+        const char *regiao = obter_regiao(estado_corrigido);
+        g_print("REGIAO PEGA: %s\n",regiao);
+		if (strcmp(regiao, "RegiÃ£o Norte") == 0) {
+			residuos_por_regiao[0] += soma_residuos;
+		} else if (strcmp(regiao, "RegiÃ£o Nordeste") == 0) {
+			residuos_por_regiao[1] += soma_residuos;
+		} else if (strcmp(regiao, "RegiÃ£o Centro-Oeste") == 0) {
+			residuos_por_regiao[2] += soma_residuos;
+		} else if (strcmp(regiao, "RegiÃ£o Sudeste") == 0) {
+			residuos_por_regiao[3] += soma_residuos;
+		} else if (strcmp(regiao, "RegiÃ£o Sul") == 0) {
+			residuos_por_regiao[4] += soma_residuos;
+		}
     }
 
     fprintf(fp_saida, "\nResumo,\n");
-    fprintf(fp_saida, "Estado com maior volume de resíduos,%s,%d\n", estado_maior_volume, (int)maior_volume);
-    fprintf(fp_saida, "Empresa com menor produção,%s,%d\n", empresa_menor_producao, (int)menor_producao);
-    fprintf(fp_saida, "Total de Resíduos Tratados,%d\n", total_residuos);
-    fprintf(fp_saida, "Aporte Financeiro Semestral,%.2f\n", aporte_financeiro);
+	fprintf(fp_saida, "Estado com maior volume de resÃ­duos,%s,%d\n", estado_maior_volume, maior_volume);
+	fprintf(fp_saida, "Empresa com menor produÃ§Ã£o,%s,%d\n", empresa_menor_producao, (int)menor_producao);
+	fprintf(fp_saida, "Total de ResÃ­duos Tratados,%d\n", total_residuos);
+	fprintf(fp_saida, "Aporte Financeiro Semestral,%.2f\n", aporte_financeiro);
 
-    fprintf(fp_saida, "\nResíduos tratados por região,\n");
-    fprintf(fp_saida, "Região,Quantidade de Resíduos\n");
-    fprintf(fp_saida, "Região Norte,%d\n", residuos_por_regiao[0]);
-    fprintf(fp_saida, "Região Nordeste,%d\n", residuos_por_regiao[1]);
-    fprintf(fp_saida, "Região Centro-Oeste,%d\n", residuos_por_regiao[2]);
-    fprintf(fp_saida, "Região Sudeste,%d\n", residuos_por_regiao[3]);
-    fprintf(fp_saida, "Região Sul,%d\n", residuos_por_regiao[4]);
+	fprintf(fp_saida, "\nResÃ­duos tratados por regiÃ£o,\n");
+	fprintf(fp_saida, "RegiÃ£o,Quantidade de ResÃ­duos\n");
+	fprintf(fp_saida, "RegiÃ£o Norte,%d\n", residuos_por_regiao[0]);
+	fprintf(fp_saida, "RegiÃ£o Nordeste,%d\n", residuos_por_regiao[1]);
+	fprintf(fp_saida, "RegiÃ£o Centro-Oeste,%d\n", residuos_por_regiao[2]);
+	fprintf(fp_saida, "RegiÃ£o Sudeste,%d\n", residuos_por_regiao[3]);
+	fprintf(fp_saida, "RegiÃ£o Sul,%d\n", residuos_por_regiao[4]);
 }
 
 void deletar_registro_dados(const gchar *cnpj) {
@@ -297,33 +359,26 @@ void deletar_registro_dados(const gchar *cnpj) {
     int encontrado = 0;
 	g_print("CNPJ capturado DENTRO: [%s]\n", cnpj);
 
-    // Abre o arquivo original e um arquivo temporário
     fp_dados = fopen("dados.txt", "r");
     if (fp_dados == NULL) {
         printf("Erro ao abrir o arquivo de dados.\n");
         return;
     }
 
-    // Criando um arquivo temporário para armazenar dados
     fp_temp = fopen("temp_dados.txt", "w");
     if (fp_temp == NULL) {
         fclose(fp_dados);
-        printf("Erro ao criar arquivo temporário.\n");
+        printf("Erro ao criar arquivo temporÃ¡rio.\n");
         return;
     }
 
-    // Lê cada linha do arquivo original
     while (fgets(linha, sizeof(linha), fp_dados)) {
-        char cnpj_atual[20]; // Para armazenar o CNPJ atual
-
-        // Use strtok para ler apenas o CNPJ da linha (quarto elemento)
-        sscanf(linha, "%*[^,],%*[^,],%*[^,],%[^,]", cnpj_atual); // Utiliza sscanf para capturar o CNPJ
+        char cnpj_atual[20];
+        sscanf(linha, "%*[^,],%*[^,],%*[^,],%[^,]", cnpj_atual);
 
         if (strcmp(cnpj_atual, cnpj) != 0) {
-            // Se não for o CNPJ que queremos deletar, escreva a linha no arquivo temporário
             fputs(linha, fp_temp);
         } else {
-            // Registro encontrado; não escreve no arquivo temporário
             encontrado = 1;
         }
     }
@@ -337,7 +392,7 @@ void deletar_registro_dados(const gchar *cnpj) {
     if (encontrado) {
         printf("Registro com CNPJ %s deletado com sucesso.\n", cnpj);
     } else {
-        printf("Registro com CNPJ %s não encontrado.\n", cnpj);
+        printf("Registro com CNPJ %s nÃ£o encontrado.\n", cnpj);
         remove("temp_dados.txt");
     }
 }
@@ -437,18 +492,18 @@ void deletar_registro_residuos(const char *cnpj) {
     FILE *fp_residuos, *fp_temp;
     char linha[256];
     int encontrado = 0;
-    g_print("CNPJ capturado DENTRO (Resíduos): [%s]\n", cnpj);
+    g_print("CNPJ capturado DENTRO (ResÃ­duos): [%s]\n", cnpj);
 
     fp_residuos = fopen("dados_residuos.txt", "r");
     if (fp_residuos == NULL) {
-        printf("Erro ao abrir o arquivo de resíduos.\n");
+        printf("Erro ao abrir o arquivo de resÃ­duos.\n");
         return;
     }
 
     fp_temp = fopen("temp_residuos.txt", "w");
     if (fp_temp == NULL) {
         fclose(fp_residuos);
-        printf("Erro ao criar arquivo temporário.\n");
+        printf("Erro ao criar arquivo temporÃ¡rio.\n");
         return;
     }
 
@@ -475,9 +530,9 @@ void deletar_registro_residuos(const char *cnpj) {
     rename("temp_residuos.txt", "dados_residuos.txt");
 
     if (encontrado) {
-        printf("Registro com CNPJ %s deletado com sucesso dos resíduos.\n", cnpj);
+        printf("Registro com CNPJ %s deletado com sucesso dos resÃ­duos.\n", cnpj);
     } else {
-        printf("Registro com CNPJ %s não encontrado nos resíduos.\n", cnpj);
+        printf("Registro com CNPJ %s nÃ£o encontrado nos resÃ­duos.\n", cnpj);
         remove("temp_residuos.txt");
     }
 }
@@ -507,7 +562,7 @@ void mensagem (char texto_primario[100], char texto_secundario[100], char nome_i
 }
 
 // -------------------
-// Funções dos botões
+// FunÃ§Ãµes dos botÃµes
 // -------------------
 
 void on_main_login_destroy(GtkWidget *widget, gpointer data) {
@@ -518,7 +573,11 @@ void on_button_login_clicked(GtkWidget *widget, gpointer data) {
     char *usuario = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "usuario")));
     char *senha = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "senha")));
 
-    if(validar_usuario(usuario, senha)) {
+    int respVal = validar_usuario(usuario, senha);
+
+    g_print("VALIDAR: %i", respVal);
+
+    if(respVal == 1) {
         mensagem("Bem Vindo", "Usuario Logado com sucesso!","emblem-default");
         gtk_stack_set_visible_child_name(stack, "view_industria");
 
@@ -531,8 +590,10 @@ void on_button_login_clicked(GtkWidget *widget, gpointer data) {
 		} else {
 			carregar_dados(liststore, arquivo);
 		}
-    } else {
+    } else if(respVal == 0){
         mensagem("Login incorreto", "Email ou senha incorretos! \n Fa\u00E7a o cadastro PRIMEIRO!","dialog-error");
+    } else if (respVal == 2){
+    	mensagem("Erro !", "Usuario ou senha invalido","dialog-error");
     }
 }
 
@@ -540,9 +601,13 @@ void on_button_cadastro_clicked(GtkWidget *widget, gpointer data) {
     char *usuario = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "usuario")));
     char *senha = gtk_entry_get_text(GTK_ENTRY(gtk_builder_get_object(builder, "senha")));
 
-   	if(validar_usuario(usuario, senha)) {
+	int respVal = validar_usuario(usuario, senha);
+
+   	if(respVal == 1) {
         mensagem("Erro Cadastro !", "Usuario j\u00E1 cadastrado","dialog-error");
-    } else {
+    } else if(respVal == 2){
+    	mensagem("Erro !", "Usuario ou senha invalido","dialog-error");
+    } else if(respVal == 0){
 		inserir_usuario(usuario, senha);
 		mensagem("Sucesso !", "Usuario cadastrado com sucesso!","emblem-default");
     }
@@ -570,11 +635,11 @@ void on_button_rel_global_csv_clicked(GtkWidget *widget, gpointer data) {
     FILE *fp_dados, *fp_residuos, *fp_saida;
     char downloadsPath[MAX_PATH];
 #ifdef _WIN32
-    snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_global.csv", getenv("USERPROFILE"));
+    snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_global", getenv("USERPROFILE"));
 #else
-    snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_global.csv", getenv("HOME"));
+    snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_global", getenv("HOME"));
 #endif
-    fp_saida = open_file_with_incremental_name(downloadsPath);
+    fp_saida = open_file_with_incremental_name(downloadsPath, 0);
     if (fp_saida == NULL) {
         mensagem("Erro!", "Erro ao abrir o arquivo de sa\u00EDda.", "dialog-error");
         g_print("Erro ao abrir o arquivo de sa\u00EDda.\n");
@@ -604,11 +669,11 @@ void on_button_rel_global_txt_clicked(GtkWidget *widget, gpointer data) {
     FILE *fp_dados, *fp_residuos, *fp_saida;
     char downloadsPath[MAX_PATH];
 #ifdef _WIN32
-    snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_global.txt", getenv("USERPROFILE"));
+    snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_global", getenv("USERPROFILE"));
 #else
-    snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_global.txt", getenv("HOME"));
+    snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_global", getenv("HOME"));
 #endif
-    fp_saida = fopen(downloadsPath, "w");
+    fp_saida = open_file_with_incremental_name(downloadsPath, 1);
     if (fp_saida == NULL) {
         mensagem("Erro!", "Erro ao abrir o arquivo de sa\u00EDda.", "dialog-error");
         g_print("Erro ao abrir o arquivo de sa\u00EDda.\n");
@@ -760,18 +825,18 @@ void on_btn_relatorio_csv_ind_clicked(GtkWidget *widget, gpointer data) {
 	AnoRelatorio relatorios[MAX_ANOS];
     int anoCount = 0;
     char cnpj[15]= "";
-	// Chama a função para extrair os dados
+	// Chama a funÃ§Ã£o para extrair os dados
 	extrair_dados(inputFile, relatorios, &anoCount, cnpj);
 	fclose(inputFile);
 	g_print("%s",cnpj);
 
 	char downloadsPath[MAX_PATH];
 #ifdef _WIN32
-	snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_%s.csv", getenv("USERPROFILE"), cnpj);
+	snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_%s", getenv("USERPROFILE"), cnpj);
 #else
-	snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_%s.csv", getenv("HOME"), cnpj);
+	snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_%s", getenv("HOME"), cnpj);
 #endif
-    FILE *outputFile = open_file_with_incremental_name(downloadsPath);
+    FILE *outputFile = open_file_with_incremental_name(downloadsPath, 0);
     if (outputFile == NULL) {
         fclose(inputFile);
         mensagem("Erro!", "Erro ao abrir o arquivo de sa\u00EDda.", "dialog-error");
@@ -797,18 +862,18 @@ void on_btn_relatorio_txt_ind_clicked(GtkWidget *widget, gpointer data) {
 	AnoRelatorio relatorios[MAX_ANOS];
     int anoCount = 0;
     char cnpj[15]= "";
-	// Chama a função para extrair os dados
+	// Chama a funÃ§Ã£o para extrair os dados
 	extrair_dados(inputFile, relatorios, &anoCount, cnpj);
 	fclose(inputFile);
 	g_print("%s",cnpj);
 
 	char downloadsPath[MAX_PATH];
 #ifdef _WIN32
-	snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_%s.txt", getenv("USERPROFILE"), cnpj);
+	snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_%s", getenv("USERPROFILE"), cnpj);
 #else
-	snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_%s.txt", getenv("HOME"), cnpj);
+	snprintf(downloadsPath, MAX_PATH, "%s\\Downloads\\relatorio_%s", getenv("HOME"), cnpj);
 #endif
-    FILE *outputFile = open_file_with_incremental_name(downloadsPath);
+    FILE *outputFile = open_file_with_incremental_name(downloadsPath, 1);
     if (outputFile == NULL) {
         fclose(inputFile);
         mensagem("Erro!", "Erro ao abrir o arquivo de sa\u00EDda.", "dialog-error");
